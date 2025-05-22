@@ -1,13 +1,13 @@
 <?php
-
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Auditable;
 
-class Supplier extends Model
+class Supplier extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
     use HasFactory;
 
     protected $fillable = [
@@ -16,7 +16,7 @@ class Supplier extends Model
         'email',
         'phone',
         'address',
-        'avatar'
+        'avatar',
     ];
 
     // Define relationships here (e.g., with the Product model)

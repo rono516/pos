@@ -1,12 +1,14 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Customer extends Model
+class Customer extends Model implements AuditableContract
 {
+    use \OwenIt\Auditing\Auditable;
+
     protected $fillable = [
         'first_name',
         'last_name',

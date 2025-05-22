@@ -82,7 +82,7 @@
                 <div class="form-group">
                     <label for="barcode">{{ __('product.Barcode') }}</label>
                     <input type="text" name="barcode" class="form-control @error('barcode') is-invalid @enderror"
-                        id="barcode" placeholder="{{ __('product.Barcode') }}"  value="{{ old('barcode') }}">
+                        id="barcode" placeholder="{{ __('product.Barcode') }}" value="{{ old('barcode') }}">
                     @error('barcode')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -154,8 +154,11 @@
         });
     </script>
     <script>
-        const uuid = crypto.randomUUID();
-        document.getElementById('barcode').value = uuid
+        function getRndInteger(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+        const randomNo = getRndInteger(100000, 999999)
+        document.getElementById('barcode').value = randomNo
 
         function calculateTotal() {
             const price = parseFloat(document.getElementById('price').value) || 0;

@@ -1,14 +1,16 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use OwenIt\Auditing\Auditable;
 
-class Order extends Model
+class Order extends Model implements AuditableContract
 {
+    use  Auditable;
     protected $fillable = [
         'customer_id',
-        'user_id'
+        'user_id',
     ];
 
     public function items()
