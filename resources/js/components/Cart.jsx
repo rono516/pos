@@ -124,6 +124,7 @@ class Cart extends Component {
             .then((res) => {
                 const cart = this.state.cart.filter((c) => c.id !== product_id);
                 this.setState({ cart });
+                // console.log(`Deleted product with id from console log ${product_id}`)
             });
     }
     handleEmptyCart() {
