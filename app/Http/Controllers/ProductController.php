@@ -20,9 +20,9 @@ class ProductController extends Controller
     {
         $products = new Product();
         if ($request->search) {
-            $products = $products->where('name', 'LIKE', "%{$request->search}%");
+            $products = $products->where('name', 'LIKE', "%{$request->search}%")->where('deleted', false);
         }
-        $products = $products->latest()->paginate(10);
+        $products = $products->where('deleted', false)->latest()->paginate(10);
         if (request()->wantsJson()) {
             return ProductResource::collection($products);
         }
@@ -141,10 +141,12 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        if ($product->image) {
-            Storage::delete($product->image);
-        }
-        $product->delete();
+        // if ($product->image) {
+        //     Storage::delete($product->image);
+        // }
+        // $product->delete();
+        $product->deleted = true;
+        $product->save();
 
         return response()->json([
             'success' => true

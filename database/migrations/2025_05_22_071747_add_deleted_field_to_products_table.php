@@ -12,10 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->string('batchno')->nullable();
-            $table->timestamp('expiry')->nullable();
-            $table->decimal('totalprice', 8, 4)->nullable();
-            $table->string('shelf')->nullable();
+            $table->boolean('deleted')->default(false);
         });
     }
 
@@ -25,10 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('batchno');
-            $table->dropColumn('expiry');
-            $table->dropColumn('totalprice', 8, 4);
-            $table->dropColumn('shelf');
+            $table->dropColumn('deleted');
         });
     }
 };
