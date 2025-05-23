@@ -74,7 +74,7 @@
                                 </button>
 
                                 @if ($order->receipt) 
-                                    <a href="{{ route('download.receipt', $order) }}" class="btn btn-sm btn-primary"
+                                    <a href="{{ route('download.receipt', $order) }}" class="btn btn-sm btn-success"
                                         download>
                                         <ion-icon size="small" name="download"></ion-icon>
                                     </a>
