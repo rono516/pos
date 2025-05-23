@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderStoreRequest;
 use App\Models\Order;
+use App\Models\Receipt;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,7 +56,13 @@ class OrderController extends Controller
             'amount'  => $request->amount,
             'user_id' => $request->user()->id,
         ]);
-        $pdf = Pdf::loadView('orders.receipt', compact('order'));
+        $serving_user = auth()->user()->getFullname();
+        $pdf          = Pdf::loadView('orders.receipt', compact('order', 'serving_user'));
+        Receipt::create([
+            'order_id'     => $order->id,
+            'serving_user' => $serving_user,
+        ]);
+
         return $pdf->download("receipt-{$order->id}.pdf");
     }
     public function partialPayment(Request $request)

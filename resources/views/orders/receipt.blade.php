@@ -67,7 +67,7 @@
         <p><strong>Total: KES {{ number_format($total, 2) }}</strong></p>
     </div>
 
-    <p style="margin-top: 30px;">Served by: {{ auth()->user()->getFullname() }}</p>
+    <p style="margin-top: 30px;">Served by: {{ $serving_user }}</p>
 </body>
 
 </html>

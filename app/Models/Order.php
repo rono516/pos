@@ -2,12 +2,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class Order extends Model implements AuditableContract
 {
-    use  Auditable;
+    use Auditable;
     protected $fillable = [
         'customer_id',
         'user_id',
@@ -59,4 +59,10 @@ class Order extends Model implements AuditableContract
     {
         return number_format($this->receivedAmount(), 2);
     }
+
+    public function receipt()
+    {
+        return $this->hasOne(Receipt::class);
+    }
+
 }
