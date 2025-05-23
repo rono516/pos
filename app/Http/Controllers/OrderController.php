@@ -1,10 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderStoreRequest;
 use App\Models\Order;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -36,14 +37,14 @@ class OrderController extends Controller
     {
         $order = Order::create([
             'customer_id' => $request->customer_id,
-            'user_id' => $request->user()->id,
+            'user_id'     => $request->user()->id,
         ]);
 
         $cart = $request->user()->cart()->get();
         foreach ($cart as $item) {
             $order->items()->create([
-                'price' => $item->price * $item->pivot->quantity,
-                'quantity' => $item->pivot->quantity,
+                'price'      => $item->price * $item->pivot->quantity,
+                'quantity'   => $item->pivot->quantity,
                 'product_id' => $item->id,
             ]);
             $item->quantity = $item->quantity - $item->pivot->quantity;
@@ -51,16 +52,17 @@ class OrderController extends Controller
         }
         $request->user()->cart()->detach();
         $order->payments()->create([
-            'amount' => $request->amount,
+            'amount'  => $request->amount,
             'user_id' => $request->user()->id,
         ]);
-        return 'success';
+        $pdf = Pdf::loadView('orders.receipt', compact('order'));
+        return $pdf->download("receipt-{$order->id}.pdf");
     }
     public function partialPayment(Request $request)
     {
         // return $request;
         $orderId = $request->order_id;
-        $amount = $request->amount;
+        $amount  = $request->amount;
 
         // Find the order
         $order = Order::findOrFail($orderId);
@@ -74,7 +76,7 @@ class OrderController extends Controller
         // Save the payment
         DB::transaction(function () use ($order, $amount) {
             $order->payments()->create([
-                'amount' => $amount,
+                'amount'  => $amount,
                 'user_id' => auth()->user()->id,
             ]);
         });

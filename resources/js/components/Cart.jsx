@@ -108,7 +108,7 @@ class Cart extends Component {
 
         axios
             .post("/admin/cart/change-qty", { product_id, quantity: qty })
-            .then((res) => {})
+            .then((res) => { })
             .catch((err) => {
                 Swal.fire("Error!", err.response.data.message, "error");
             });
@@ -190,6 +190,45 @@ class Cart extends Component {
     setCustomerId(event) {
         this.setState({ customer_id: event.target.value });
     }
+    // handleClickSubmit() {
+    //     Swal.fire({
+    //         title: this.state.translations["received_amount"],
+    //         input: "text",
+    //         inputValue: this.getTotal(this.state.cart),
+    //         cancelButtonText: this.state.translations["cancel_pay"],
+    //         showCancelButton: true,
+    //         confirmButtonText: this.state.translations["confirm_pay"],
+    //         showLoaderOnConfirm: true,
+    //         preConfirm: (amount) => {
+    //             return axios
+    //                 .post("/admin/orders", {
+    //                     customer_id: this.state.customer_id,
+    //                     amount,
+    //                 }, { responseType: 'blob' })
+    //                 .then((res) => {
+    //                     console.log('Content-Type:', res.headers['content-type']);
+    //                     console.log('Data size:', res.data.size);
+    //                     const url = window.URL.createObjectURL(new Blob([res.data]));
+    //                     const link = document.createElement('a');
+    //                     link.href = url;
+    //                     link.setAttribute('download', 'receipt.pdf'); // or dynamic name
+    //                     document.body.appendChild(link);
+    //                     link.click();
+    //                     link.remove();
+
+    //                     this.loadCart();
+    //                 })
+    //                 .catch((err) => {
+    //                     Swal.showValidationMessage(err.response.data.message);
+    //                 });
+    //         },
+    //         allowOutsideClick: () => !Swal.isLoading(),
+    //     }).then((result) => {
+    //         if (result.value) {
+    //             //
+    //         }
+    //     });
+    // }
     handleClickSubmit() {
         Swal.fire({
             title: this.state.translations["received_amount"],
@@ -204,13 +243,40 @@ class Cart extends Component {
                     .post("/admin/orders", {
                         customer_id: this.state.customer_id,
                         amount,
-                    })
+                    }, { responseType: 'blob' })
                     .then((res) => {
+                        console.log('Content-Type:', res.headers['content-type']);
+                        console.log('Content-Disposition:', res.headers['content-disposition']);
+                        console.log('Data size:', res.data.size);
+                        if (res.headers['content-type'] !== 'application/pdf') {
+                            return res.data.text().then((text) => {
+                                throw new Error(`Expected PDF, received: ${text}`);
+                            });
+                        }
+                        const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
+                        const link = document.createElement('a');
+                        link.href = url;
+                        // Extract filename from Content-Disposition
+                        let filename = 'receipt.pdf'; // Default fallback
+                        const disposition = res.headers['content-disposition'];
+                        if (disposition) {
+                            const match = disposition.match(/filename="?([^"]+)"?/i);
+                            if (match && match[1]) {
+                                filename = match[1];
+                            }
+                        }
+                        console.log('Extracted filename:', filename);
+                        link.setAttribute('download', filename);
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        window.URL.revokeObjectURL(url);
                         this.loadCart();
-                        return res.data;
                     })
                     .catch((err) => {
-                        Swal.showValidationMessage(err.response.data.message);
+                        console.error('Error:', err);
+                        const message = err.response?.data?.message || err.message || 'Failed to download receipt';
+                        Swal.showValidationMessage(message);
                     });
             },
             allowOutsideClick: () => !Swal.isLoading(),
