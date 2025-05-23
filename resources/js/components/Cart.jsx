@@ -69,7 +69,7 @@ class Cart extends Component {
 
     handleOnChangeBarcode(event) {
         const barcode = event.target.value;
-        console.log(barcode);
+        // console.log(barcode);
         this.setState({ barcode });
     }
 
@@ -245,9 +245,9 @@ class Cart extends Component {
                         amount,
                     }, { responseType: 'blob' })
                     .then((res) => {
-                        console.log('Content-Type:', res.headers['content-type']);
-                        console.log('Content-Disposition:', res.headers['content-disposition']);
-                        console.log('Data size:', res.data.size);
+                        // console.log('Content-Type:', res.headers['content-type']);
+                        // console.log('Content-Disposition:', res.headers['content-disposition']);
+                        // console.log('Data size:', res.data.size);
                         if (res.headers['content-type'] !== 'application/pdf') {
                             return res.data.text().then((text) => {
                                 throw new Error(`Expected PDF, received: ${text}`);
@@ -265,7 +265,7 @@ class Cart extends Component {
                                 filename = match[1];
                             }
                         }
-                        console.log('Extracted filename:', filename);
+                        // console.log('Extracted filename:', filename);
                         link.setAttribute('download', filename);
                         document.body.appendChild(link);
                         link.click();
