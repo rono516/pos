@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-md-7"></div>
                 <div class="col-md-5">
-                    <form action="{{ route('orders.index') }}">
+                    <form action="{{ route('audit.logs') }}">
                         <div class="row">
                             <div class="col-md-5">
                                 <input type="date" name="start_date" class="form-control"
