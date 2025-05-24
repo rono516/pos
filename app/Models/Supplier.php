@@ -20,5 +20,8 @@ class Supplier extends Model implements AuditableContract
         'avatar',
     ];
 
-    // Define relationships here (e.g., with the Product model)
+   public function getAuditDisplayName()
+    {
+        return "Supplier: {$this->first_name} {$this->last_name}";
+    }
 }

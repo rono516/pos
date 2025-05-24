@@ -13,4 +13,9 @@ class Payment extends Model implements AuditableContract
         'order_id',
         'user_id',
     ];
+
+    public function getAuditDisplayName()
+    {
+        return "Payment Amount: {$this->amount}";
+    }
 }

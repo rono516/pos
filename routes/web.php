@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuditController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
@@ -9,8 +10,8 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SupplierController;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect('/admin');
@@ -43,4 +44,6 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->group(function () {
     });
 
     Route::get('/download-receipt/{order}', ReceiptController::class)->name('download.receipt');
+    Route::get('/audits', AuditController::class)->name('audit.logs');
+
 });

@@ -13,4 +13,9 @@ class Setting extends Model implements AuditableContract
     protected $fillable = [
         'key', 'value',
     ];
+
+    public function getAuditDisplayName()
+    {
+        return "Updated Settings";
+    }
 }

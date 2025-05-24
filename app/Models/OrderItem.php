@@ -19,4 +19,9 @@ class OrderItem extends Model implements AuditableContract
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function getAuditDisplayName()
+    {
+        return "OrderItem: {$this->product->name}";
+    }
 }

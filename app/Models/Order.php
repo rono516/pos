@@ -64,5 +64,9 @@ class Order extends Model implements AuditableContract
     {
         return $this->hasOne(Receipt::class);
     }
+    public function getAuditDisplayName()
+    {
+        return "Order ID: {$this->id} ";
+    }
 
 }

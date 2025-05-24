@@ -71,6 +71,12 @@
                         <p>{{ __('settings.title') }}</p>
                     </a>
                 </li>
+                <li class="nav-item has-treeview">
+                    <a href="{{ route('audit.logs') }}" class="nav-link {{ activeSegment('audits') }}">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>{{ __('Audit Logs') }}</p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit()">
                         <i class="nav-icon fas fa-sign-out-alt"></i>

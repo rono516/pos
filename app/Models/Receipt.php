@@ -17,4 +17,9 @@ class Receipt extends Model implements AuditableContract
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function getAuditDisplayName()
+    {
+        return "Receipt for Order: {$this->order->id}";
+    }
 }

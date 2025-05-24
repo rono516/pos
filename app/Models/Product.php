@@ -30,4 +30,9 @@ class Product extends Model implements AuditableContract
         }
         return asset('images/img-placeholder.jpg');
     }
+
+    public function getAuditDisplayName()
+    {
+        return "Product: {$this->name}";
+    }
 }

@@ -64,4 +64,9 @@ class User extends Authenticatable implements AuditableContract
     {
         return 'https://www.gravatar.com/avatar/' . md5($this->email);
     }
+
+    public function getAuditDisplayName()
+    {
+        return "User: {$this->first_name} {$this->last_name}";
+    }
 }

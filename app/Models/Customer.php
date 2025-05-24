@@ -23,4 +23,9 @@ class Customer extends Model implements AuditableContract
     {
         return Storage::url($this->avatar);
     }
+    public function getAuditDisplayName()
+    {
+        return "Customer: {$this->first_name}";
+    }
+
 }
