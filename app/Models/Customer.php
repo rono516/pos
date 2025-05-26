@@ -28,4 +28,8 @@ class Customer extends Model implements AuditableContract
         return "Customer: {$this->first_name}";
     }
 
+    public function orders(){
+        return $this->hasMany(Order::class);
+    }
+
 }
