@@ -21,6 +21,12 @@ class Product extends Model implements AuditableContract
         'expiry',
         'totalprice',
         'shelf',
+        'deleted',
+    ];
+
+    protected $casts = [
+        'expiry' => 'datetime',  
+        'deleted' => 'boolean',
     ];
 
     public function getImageUrl()
@@ -34,5 +40,9 @@ class Product extends Model implements AuditableContract
     public function getAuditDisplayName()
     {
         return "Product: {$this->name}";
+    }
+
+    public function expiryAlerts(){
+        return $this->hasMany(ExpiryAlert::class);
     }
 }

@@ -21,8 +21,8 @@
                     <th>{{ __('product.Price') }}</th>
                     <th>{{ __('product.Quantity') }}</th>
                     <th>{{ __('product.Status') }}</th>
-                    <th>{{ __('product.Created_At') }}</th>
-                    <th>{{ __('product.Updated_At') }}</th>
+                    <th>{{ __('Added') }}</th>
+                    <th>{{ __('Expiry') }}</th>
                     <th>{{ __('product.Actions') }}</th>
                 </tr>
             </thead>
@@ -39,7 +39,7 @@
                         <span class="right badge badge-{{ $product->status ? 'success' : 'danger' }}">{{$product->status ? __('common.Active') : __('common.Inactive') }}</span>
                     </td>
                     <td>{{$product->created_at}}</td>
-                    <td>{{$product->updated_at}}</td>
+                    <td>{{$product->expiry}}</td>
                     <td>
                         <a href="{{ route('products.edit', $product) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                         <button class="btn btn-danger btn-delete" data-url="{{route('products.destroy', $product)}}"><i class="fas fa-trash"></i></button>
