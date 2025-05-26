@@ -30,7 +30,7 @@ class CheckDrugExpiry extends Command
     public function handle()
     {
         $today      = Carbon::today();
-        $thresholds = [30, 60, 90];
+        $thresholds = [1,6, 30, 60, 90];
 
         foreach ($thresholds as $days) {
             $targetDate    = $today->copy()->addDays($days)->startOfDay();
@@ -51,8 +51,8 @@ class CheckDrugExpiry extends Command
 
                 // Only send alert if the product expires close to the threshold
                 if ($daysToExpiry <= $days && $daysToExpiry > ($days - 30)) {
-                                                                     // Send notification to admin (or relevant users)
-                    Notification::route('mail', 'ronocollins2000@gmail.com') // Replace with actual recipient
+                    // Send notification to admin (or relevant users)
+                    Notification::route('mail', 'ronocollins2000@gmail.com')  
                         ->notify(new DrugExpiryAlert($product, $days));
 
                     // Log the alert
