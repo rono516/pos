@@ -9,16 +9,30 @@ class SettingController extends Controller
 {
     public function index()
     {
-        return view('settings.edit');
+        $setting = Setting::findOrFail(1);
+        return view('settings.edit', compact('setting'));
     }
 
     public function store(Request $request)
     {
-        $data = $request->except('_token');
-        foreach ($data as $key => $value) {
-            $setting = Setting::firstOrCreate(['key' => $key]);
-            $setting->value = $value;
-            $setting->save();
+        $setting = Setting::findOrFail(1);
+
+        $image_path = '';
+
+        if ($request->hasFile('image')) {
+            $image_path = $request->file('image')->store('settings', 'public');
+        }
+
+        $setting->logo = $image_path;
+        $setting->app_name = $request->app_name;
+        $setting->currency_symbol = $request->currency_symbol;
+        $setting->app_description = $request->app_description;
+        $setting->warning_quantity = $request->warning_quantity;
+        $setting->phone = $request->phone;
+        $setting->email = $request->email;
+
+        if (! $setting->save()) {
+            return redirect()->back()->with('error', __('Error updating settings'));
         }
 
         return redirect()->route('settings.index');

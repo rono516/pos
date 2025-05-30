@@ -40,7 +40,7 @@
                             <td>{{ $customer->address }}</td>
                             <td>
                                 @foreach ($customer->orders as $order)
-                                    <p><a href="/admin/orders">{{"Order ID: {$order->id}" }}</a></p>
+                                    <p><a href="/admin/orders">{{"Order: {$order->id}" }}</a></p>
                                 @endforeach
                             </td>
                             <td>

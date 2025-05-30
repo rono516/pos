@@ -29,8 +29,8 @@
 
 <body>
     <div class="center">
-        <h2>Pharmacy POS</h2>
-        <p>Phone: 0700000000 | Email: pharmacy@shop.com</p>
+        <h2>{{ config('settings.app_name') }}</h2>
+        <p>Phone: {{config('settings.phone')}} | Email: {{config('settings.email')}}</p>
         <p><strong>Receipt #: {{ $order->id }}</strong></p>
     </div>
 
@@ -46,7 +46,7 @@
         <tbody>
             @foreach ($order->items as $item)
                 <tr>
-                    <td>{{ $item->product_id }}</td>
+                    <td>{{ $item->product->name }}</td>
                     <td>{{ $item->quantity }}</td>
                     <td>{{ number_format($item->price / $item->quantity, 2) }}</td>
                     <td>{{ number_format($item->price, 2) }}</td>

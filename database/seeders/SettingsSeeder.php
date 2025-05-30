@@ -14,17 +14,10 @@ class SettingsSeeder extends Seeder
      */
     public function run()
     {
-        $data = [
-            ['key' => 'app_name', 'value' => 'Pharmacy-POS'],
-            ['key' => 'currency_symbol', 'value' => 'KES'],
-        ];
-
-        foreach ($data as $value) {
-            Setting::updateOrCreate([
-                'key' => $value['key']
-            ], [
-                'value' => $value['value']
-            ]);
-        }
+        Setting::updateOrCreate([
+            'app_name' => "Pharmacy POS",
+            'currency_symbol' => "KES",
+            'warning_quantity' => 40
+        ]);
     }
 }

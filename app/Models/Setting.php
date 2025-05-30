@@ -11,11 +11,11 @@ class Setting extends Model implements AuditableContract
     use Auditable;
 
     protected $fillable = [
-        'key', 'value',
+        'app_name','currency_symbol', 'app_description', 'warning_quantity','logo', 'phone', 'email'
     ];
 
     public function getAuditDisplayName()
     {
-        return "Updated Settings";
+        return "Updated POS Settings";
     }
 }

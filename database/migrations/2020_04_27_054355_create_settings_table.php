@@ -15,8 +15,13 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->unique();
-            $table->text('value')->nullable();
+            $table->string('app_name')->nullable();
+            $table->string('currency_symbol')->nullable();
+            $table->text('app_description')->nullable();
+            $table->integer('warning_quantity')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }
