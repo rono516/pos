@@ -53,19 +53,28 @@
     <div class="card">
         <div class="card-body">
             <h2>All Roles and Permissions</h2>
-
             @foreach ($roles as $role)
-                <div>
+                <div class="mb-4 border p-3 rounded shadow">
                     <h4>{{ Str::title($role->name) }}</h4>
-                    <ul>
-                        @forelse ($role->permissions as $permission)
-                            <li>{{ $permission->name }}</li>
-                        @empty
-                            <li><em>No permissions assigned</em></li>
-                        @endforelse
-                    </ul>
+
+                    <form class="permission-form" data-role-id="{{ $role->id }}">
+                        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+                        @foreach ($permissions as $permission)
+                            <div class="form-check">
+                                <input class="form-check-input permission-checkbox" type="checkbox"
+                                    data-role-id="{{ $role->id }}" data-permission-id="{{ $permission->id }}"
+                                    id="role-{{ $role->id }}-perm-{{ $permission->id }}"
+                                    {{ $role->permissions->contains($permission) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="role-{{ $role->id }}-perm-{{ $permission->id }}">
+                                    {{ Str::title($permission->name) }}
+                                </label>
+                            </div>
+                        @endforeach
+                    </form>
                 </div>
             @endforeach
+
         </div>
     </div>
 @endsection
@@ -242,7 +251,7 @@
                                     if (error.errors) {
                                         // Laravel validation errors (422)
                                         let messages = Object.values(error.errors)
-                                        .flat();
+                                            .flat();
                                         Swal.fire('Validation Error',
                                             "Error occurred! Check values provided",
                                             'error');
@@ -259,5 +268,41 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            document.querySelectorAll('.permission-checkbox').forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    const roleId = this.dataset.roleId;
+                    const permissionId = this.dataset.permissionId;
+                    const checked = this.checked;
+
+                    fetch(`/admin/roles/${roleId}/permissions/toggle`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrf
+                            },
+                            body: JSON.stringify({
+                                permission_id: permissionId,
+                                attach: checked
+                            })
+                        }).then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Permission updated.');
+                            } else {
+                                alert(data.message || 'Something went wrong.');
+                            }
+                        }).catch(err => {
+                            alert('Server error');
+                            console.error(err);
+                        });
+                });
+            });
+        });
+    </script>
+
 
 @endsection

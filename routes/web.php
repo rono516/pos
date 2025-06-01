@@ -10,6 +10,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\TogglePermissionsController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -47,5 +48,7 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->group(function () {
 
     Route::get('/download-receipt/{order}', ReceiptController::class)->name('download.receipt');
     Route::get('/audits', AuditController::class)->name('audit.logs');
+    Route::post('/roles/{role}/permissions/toggle', TogglePermissionsController::class);
+
 
 });

@@ -1,10 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Permission;
 
 class UsersController extends Controller
 {
@@ -18,9 +20,10 @@ class UsersController extends Controller
                 User::all()
             );
         }
+        $permissions = Permission::all() ;
         $roles = Role::with('permissions')->get();
         $users = User::latest()->paginate(10);
-        return view('users.index', compact('users', 'roles'));
+        return view('users.index', compact('users', 'roles', 'permissions'));
     }
 
     /**
