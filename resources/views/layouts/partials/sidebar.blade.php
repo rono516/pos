@@ -72,6 +72,12 @@
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
+                    <a href="{{ route('users.index') }}" class="nav-link {{ activeSegment('users') }}">
+                        <i class="nav-icon fas fa-user-tie"></i>
+                        <p>{{ __('Users/Permissions') }}</p>
+                    </a>
+                </li>
+                <li class="nav-item has-treeview">
                     <a href="{{ route('audit.logs') }}" class="nav-link {{ activeSegment('audits') }}">
                         <i class="nav-icon fas fa-cogs"></i>
                         <p>{{ __('Audit Logs') }}</p>

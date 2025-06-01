@@ -24,7 +24,8 @@ class ProductController extends Controller
         }
         $products = $products->where('deleted', false)
             ->where('expiry', ">=", Carbon::today())
-            ->latest()
+        // ->latest()
+            ->orderBy("expiry", 'asc')
             ->paginate(10);
         if (request()->wantsJson()) {
             return ProductResource::collection($products);
