@@ -115,7 +115,9 @@
                     <input id=swal-last_name class="swal2-input" placeholder="Last Name">
                     <input id=swal-email class="swal2-input" placeholder="Email">
                     `,
-                    confirmButton: 'Add',
+                    confirmButtonText: 'Add User',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancel',
                     focusConfirm: false,
                     preConfirm: () => {
                         const FirstName = document.getElementById("swal-first_name").value;
@@ -180,6 +182,8 @@
                          <input id="swal-email" class="swal2-input" placeholder="Email" value="${email}">
                          <input id="swal-role" class="swal2-input" placeholder="Role" value="${role}">`,
                         confirmButtonText: 'Update',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancel',
                         focusConfirm: false,
                         preConfirm: () => {
                             const firstName = document.getElementById('swal-first_name')
