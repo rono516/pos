@@ -1,24 +1,28 @@
 <?php
+
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class DrugExpiryAlert extends Notification
+class DrugLowStockAlert extends Notification
 {
     use Queueable;
 
     protected $product;
-    protected $daysToExpiry;
+    protected $quantity;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($product, $daysToExpiry)
+    public function __construct($product, $quantity)
+
     {
-        $this->product      = $product;
-        $this->daysToExpiry = $daysToExpiry;
+       $this->product = $product;
+       $this->quantity = $quantity;
+
     }
 
     /**
@@ -28,7 +32,9 @@ class DrugExpiryAlert extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database']; // send by mail and store in database
+        return ['mail', 'database'];
+
+
     }
 
     /**
@@ -37,15 +43,12 @@ class DrugExpiryAlert extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject("Drug Expiry Alert: {$this->product->name}")
-            ->line("The drug **{$this->product->name}** is nearing its expiry date.")
+            ->subject("Low Stock Alert: {$this->product->name}")
+            ->line("The drug **{$this->product->name}** is low in stock.")
             ->line("Expiry Date: {$this->product->expiry->format('Y-m-d')}")
-            ->line("Days to Expiry: {$this->daysToExpiry}")
             ->line("Stock Quantity: {$this->product->quantity}")
-            // ->action('View Product', url('/products/' . $this->product->id))
             ->action('View Product', url('/admin/products'))
             ->line('Please take action to manage this stock.');
-
     }
 
     /**
@@ -59,7 +62,6 @@ class DrugExpiryAlert extends Notification
             'product_id'     => $this->product->id,
             'product_name'   => $this->product->name,
             'expiry_date'    => $this->product->expiry->format('Y-m-d'),
-            'days_to_expiry' => $this->daysToExpiry,
             'quantity'       => $this->product->quantity,
         ];
     }

@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('drugs:check-expiry')->dailyAt('08:00'); // Run daily at 8 AM
+        $schedule->command('drugs:check-stock')->dailyAt('08:00'); // Run daily at 8 AM
     }
 
     /**
