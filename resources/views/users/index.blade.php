@@ -113,7 +113,7 @@
                     html: `
                     <input id=swal-first_name class="swal2-input" placeholder="First Name">
                     <input id=swal-last_name class="swal2-input" placeholder="Last Name">
-                    <input id=swal-email class="swal2-input" placeholder="Email">
+                    <input type="email" id=swal-email class="swal2-input" placeholder="Email">
                     `,
                     confirmButtonText: 'Add User',
                     showCancelButton: true,
@@ -151,10 +151,21 @@
                                             'User added successfully', 'success')
                                         .then(() => location
                                             .reload()
-                                        ); // reload page to reflect changes
+                                        );
                                 } else {
                                     Swal.fire('Error', data.message ||
                                         'Something went wrong', 'error');
+                                }
+                            }).catch(error => {
+                                if (error.errors) {
+                                    // Laravel validation errors (422)
+                                    let messages = Object.values(error.errors).flat();
+                                    Swal.fire('Validation Error',
+                                        "Error occurred! Check values provided", 'error');
+                                } else {
+                                    // Other errors (500, network issues, etc.)
+                                    Swal.fire('Error', 'Error occurred! Check values provided',
+                                        'error');
                                 }
                             });
                     }
@@ -226,6 +237,20 @@
                                     } else {
                                         Swal.fire('Error', data.message ||
                                             'Something went wrong', 'error');
+                                    }
+                                }).catch(error => {
+                                    if (error.errors) {
+                                        // Laravel validation errors (422)
+                                        let messages = Object.values(error.errors)
+                                        .flat();
+                                        Swal.fire('Validation Error',
+                                            "Error occurred! Check values provided",
+                                            'error');
+                                    } else {
+                                        // Other errors (500, network issues, etc.)
+                                        Swal.fire('Error',
+                                            'Error occurred! Check values provided',
+                                            'error');
                                     }
                                 });
                         }

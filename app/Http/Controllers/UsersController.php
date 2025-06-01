@@ -36,6 +36,11 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'email'      => 'required|email|max:255',
+            'first_name' => 'required|max:255',
+            'last_name'  => 'required|max:255',
+        ]);
         try {
             $user = User::updateOrCreate([
                 'email' => $request->email,
@@ -79,10 +84,14 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $request->validate([
+            'first_name' => 'required|max:255',
+            'last_name'  => 'required|max:255',
+        ]);
         try {
+
             $user->first_name = $request->first_name;
             $user->last_name  = $request->last_name;
-            // $user->email      = $request->email;
 
             $user->save();
             return response()->json([
