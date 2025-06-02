@@ -66,6 +66,12 @@
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
+                    <a href="{{ route('suppliers.index') }}" class="nav-link {{ activeSegment('purchase') }}">
+                        <i class="nav-icon fas fa-boxes-stacked"></i>
+                        <p>{{ __('Purchase Order') }}</p>
+                    </a>
+                </li>
+                <li class="nav-item has-treeview">
                     <a href="{{ route('settings.index') }}" class="nav-link {{ activeSegment('settings') }}">
                         <i class="nav-icon fas fa-cogs"></i>
                         <p>{{ __('settings.title') }}</p>
