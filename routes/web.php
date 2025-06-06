@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SupplierController;
@@ -49,6 +50,9 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->group(function () {
     Route::get('/download-receipt/{order}', ReceiptController::class)->name('download.receipt');
     Route::get('/audits', AuditController::class)->name('audit.logs');
     Route::post('/roles/{role}/permissions/toggle', TogglePermissionsController::class);
+    Route::resource('purchaseorders', PurchaseOrderController::class)->except(['create']);
+    Route::get('/admin/purchaseorders/create/{supplier}', [PurchaseOrderController::class, 'create'])
+    ->name('purchaseorders.create');
 
 
 });

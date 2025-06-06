@@ -60,13 +60,13 @@
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="{{ route('suppliers.index') }}" class="nav-link {{ activeSegment('supplier') }}">
+                    <a href="{{ route('suppliers.index') }}" class="nav-link {{ activeSegment('suppliers') }}">
                         <i class="nav-icon fas fa-users"></i>
-                        <p>{{ __('Supplier') }}</p>
+                        <p>{{ __('Suppliers') }}</p>
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="{{ route('suppliers.index') }}" class="nav-link {{ activeSegment('purchase') }}">
+                    <a href="{{ route('purchaseorders.index') }}" class="nav-link {{ activeSegment('purchaseorders') }}">
                         <i class="nav-icon fas fa-boxes-stacked"></i>
                         <p>{{ __('Purchase Order') }}</p>
                     </a>
