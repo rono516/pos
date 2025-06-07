@@ -51,6 +51,46 @@
             {{ $suppliers->render() }}
         </div>
     </div>
+
+
+
+    {{-- <div class="card">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>{{ __('ID') }}</th>
+                        <th>{{ __('First Name') }}</th>
+                        <th>{{ __('Last Name') }}</th>
+                        <th>{{ __('Email') }}</th>
+                        <th>{{ __('Phone') }}</th>
+                        <th>{{ __('Address') }}</th>
+                        <th>{{ __('Created At') }}</th>
+                        <th>{{ __('Actions') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($suppliers as $supplier)
+                        <tr>
+                            <td>{{ $supplier->id }}</td>
+
+                            <td>{{ $supplier->first_name }}</td>
+                            <td>{{ $supplier->last_name }}</td>
+                            <td>{{ $supplier->email }}</td>
+                            <td>{{ $supplier->phone }}</td>
+                            <td>{{ $supplier->address }}</td>
+                            <td>{{ $supplier->created_at }}</td>
+                            <td>
+                                <a href="{{ route('purchaseorders.create', $supplier) }}" class="btn btn-primary"><i
+                                        class="fas fa-eye"></i></a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $suppliers->render() }}
+        </div>
+    </div> --}}
 @endsection
 
 @section('js')

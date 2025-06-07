@@ -6,7 +6,7 @@
 
 @section('content')
 
-    <div style="display: none" id="new-purchase-order" class="container ">
+    <div style="display: none" id="new-purchase-order" class="container mb-2 ">
         <h2>Supplier: {{ $supplier->first_name }} {{ $supplier->last_name }}</h2>
 
 
@@ -40,9 +40,42 @@
 
             <button type="button" class="btn btn-secondary" id="add-item">Add Item</button>
             <br><br>
-            <button type="submit" class="btn btn-success">New Purchase Order</button>
+            <button type="submit" class="btn btn-success">Submit Purchase Order</button>
         </form>
     </div>
+    {{-- <h2>Purchase Orders</h2> --}}
+
+    @foreach ($supplier->purchaseOrders as $order)
+        <div class="mb-4 p-3 border rounded">
+            <h4>Order #{{ $order->id }}</h4>
+            <p>Total Amount: KES {{ number_format($order->total_amount, 2) }}</p>
+            <p>Fulfilled: {{ $order->fulfilled ? 'Yes' : 'No' }}</p>
+
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($order->items as $item)
+                        <tr>
+                            <td>
+                                {{-- Use product relationship if available, fallback to stored name --}}
+                                {{ $item->product->name ?? $item->product_name }}
+                            </td>
+                            <td>{{ $item->quantity }}</td>
+                            <td>KES {{ number_format($item->unit_price, 2) }}</td>
+                            <td>KES {{ number_format($item->sub_total, 2) }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @endforeach
 
     <script>
         let itemIndex = 1;
