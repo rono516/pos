@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->string('batchno')->nullable();
             $table->timestamp('expiry')->nullable();
-            $table->decimal('totalprice', 8, 4)->nullable();
+            $table->decimal('totalprice', 12, 4)->nullable();
             $table->string('shelf')->nullable();
         });
     }
@@ -27,7 +27,7 @@ return new class extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->dropColumn('batchno');
             $table->dropColumn('expiry');
-            $table->dropColumn('totalprice', 8, 4);
+            $table->dropColumn('totalprice', 12, 4);
             $table->dropColumn('shelf');
         });
     }
