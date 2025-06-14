@@ -22,9 +22,9 @@ return new class extends Migration
                 ->onDelete('set null');
             $table->string('product_name');
             $table->integer('quantity');
-            $table->decimal('unit_price', 8, 2)
+            $table->decimal('unit_price', 12, 4)
                 ->nullable();
-            $table->decimal('sub_total', 8, 2)
+            $table->decimal('sub_total', 12, 4)
                 ->nullable();
             $table->boolean('is_new_product')
                 ->default(false);
