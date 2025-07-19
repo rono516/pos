@@ -1,5 +1,5 @@
 <p align="center">
-    <h1 align="center">Pharmacy POS System Using Laravel</h1>
+    <h1 align="center">POS System Using Laravel</h1>
 </p>
 
 ## Installation
@@ -117,4 +117,4 @@ Rename or copy `.env.example` file to `.env` 1.`php artisan key:generate` to gen
 ![Customer list](https://raw.githubusercontent.com/angkosal/laravel-pos/master/screenshots/customer_list.png)
 
 
- 
+

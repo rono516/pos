@@ -15,7 +15,7 @@ class SettingsSeeder extends Seeder
     public function run()
     {
         Setting::updateOrCreate([
-            'app_name' => "Pharmacy POS",
+            'app_name' => "POS",
             'currency_symbol' => "KES",
             'warning_quantity' => 40
         ]);
