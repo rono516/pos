@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "60c5b4fe9aa7fcb8215266323087c9a1",
+    "content-hash": "4ede8a34f61133ec08d882d696b39500",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -2869,6 +2869,57 @@
                 }
             ],
             "time": "2024-11-21T10:39:51+00:00"
+        },
+        {
+            "name": "nyanumba-codes/pesapal",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NyanumbaCodes/Pesapal.git",
+                "reference": "4cae3b066a8dc0b39d5a44ad8f01234478f1d065"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NyanumbaCodes/Pesapal/zipball/4cae3b066a8dc0b39d5a44ad8f01234478f1d065",
+                "reference": "4cae3b066a8dc0b39d5a44ad8f01234478f1d065",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^11.0|^12.0",
+                "php": ">=8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "NyanumbaCodes\\Pesapal": "NyanumbaCodes\\Pesapal\\Facades\\Pesapal"
+                    },
+                    "providers": [
+                        "NyanumbaCodes\\Pesapal\\Providers\\PesapalServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "NyanumbaCodes\\Pesapal\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Steve Nyanumba",
+                    "email": "reach@stevenyanumba.com"
+                }
+            ],
+            "description": "\"Laravel Integration Package for Pesapal \"",
+            "support": {
+                "issues": "https://github.com/NyanumbaCodes/Pesapal/issues",
+                "source": "https://github.com/NyanumbaCodes/Pesapal/tree/1.0.2"
+            },
+            "time": "2025-02-25T00:35:42+00:00"
         },
         {
             "name": "owen-it/laravel-auditing",
@@ -8831,5 +8882,5 @@
         "php": "^8.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }

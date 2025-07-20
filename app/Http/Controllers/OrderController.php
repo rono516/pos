@@ -1,16 +1,24 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Requests\OrderStoreRequest;
 use App\Models\Order;
 use App\Models\Receipt;
+// use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Services\PesapalPaymentService;
+use Illuminate\Support\Facades\Request;
+use App\Http\Requests\OrderStoreRequest;
 
 class OrderController extends Controller
 {
+    protected $pesapalPaymentService;
+
+    public function __construct(PesapalPaymentService $pesapalPaymentService)
+    {
+        $this->pesapalPaymentService = $pesapalPaymentService;
+    }
     public function index(Request $request)
     {
         $orders = new Order();
@@ -52,6 +60,9 @@ class OrderController extends Controller
             $item->save();
         }
         $request->user()->cart()->detach();
+
+        $pesapalPaymentResponse = $this->pesapalPaymentService->initiatePesaPal($amount=$request->amount, $orderId=$order->id);
+        Log::info('Response:', ['response' => $pesapalPaymentResponse]);
         $order->payments()->create([
             'amount'  => $request->amount,
             'user_id' => $request->user()->id,
@@ -89,5 +100,10 @@ class OrderController extends Controller
         });
 
         return redirect()->route('orders.index')->with('success', 'Partial payment of ' . config('settings.currency_symbol') . number_format($amount, 2) . ' made successfully.');
+    }
+
+    public function handlePesapallCallback(Request $request){
+        // handle pesapal callback here
+        $pesapalPaymentResponse = $this->pesapalPaymentService->handleCallback($request);
     }
 }

@@ -241,6 +241,7 @@ class Cart extends Component {
             preConfirm: (amount) => {
                 return axios
                     .post("/admin/orders", {
+                    // .post("/initiatePesapal", {
                         customer_id: this.state.customer_id,
                         amount,
                     }, { responseType: 'blob' })
@@ -248,6 +249,7 @@ class Cart extends Component {
                         // console.log('Content-Type:', res.headers['content-type']);
                         // console.log('Content-Disposition:', res.headers['content-disposition']);
                         // console.log('Data size:', res.data.size);
+                        // console.log(`response`,res);
                         if (res.headers['content-type'] !== 'application/pdf') {
                             return res.data.text().then((text) => {
                                 throw new Error(`Expected PDF, received: ${text}`);

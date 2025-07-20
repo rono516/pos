@@ -5,6 +5,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PesapalController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\PurchaseOrderController;
@@ -53,6 +54,7 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->group(function () {
     Route::resource('purchaseorders', PurchaseOrderController::class)->except(['create']);
     Route::get('/admin/purchaseorders/create/{supplier}', [PurchaseOrderController::class, 'create'])
     ->name('purchaseorders.create');
+
 
 
 });
