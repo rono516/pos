@@ -2,8 +2,9 @@
 namespace App\Services;
 
 use App\Models\PesapalPayment;
-use NyanumbaCodes\Pesapal\Pesapal; 
+use NyanumbaCodes\Pesapal\Pesapal;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
 class PesapalPaymentService
@@ -36,15 +37,18 @@ class PesapalPaymentService
     }
 
     public function handleCallback(Request $request){
-        $notificationType = $request->input('OrderNotificationType');
-        $trackingId = $request->input('OrderTrackingId');
-        $merchantReference = $request->input('OrderMerchantReference');
+        // $notificationType = $request->input('OrderNotificationType');
+        // $trackingId = $request->input('OrderTrackingId');
+        // $merchantReference = $request->input('OrderMerchantReference');
 
-        $pesapal = new Pesapal();
-        $paymentStatus = $pesapal->getTransactionStatus($trackingId);
+        // $pesapal = new Pesapal();
+        // $paymentStatus = $pesapal->getTransactionStatus($trackingId);
 
-        if($paymentStatus["status_code"] === 1){
+        // if($paymentStatus["status_code"] === 1){
 
-        }
+        // }
+        Log::info("Pesapal callback received", ['request' => $request->all()]);
+
+        return response()->json(data: ['status' => 'received']);
     }
 }

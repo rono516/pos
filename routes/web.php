@@ -59,4 +59,4 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->group(function () {
 
 });
 
-require __DIR__ . '/sha.php';
+require __DIR__ . '/sha.php'; 

@@ -3,13 +3,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Receipt;
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Services\PesapalPaymentService;
-use Illuminate\Support\Facades\Request;
 use App\Http\Requests\OrderStoreRequest;
+use App\Models\PesapalPayment;
+use Illuminate\Support\Facades\Auth;
+// use NyanumbaCodes\Pesapal\Facades\Pesapal as FacadesPesapal;
+// use NyanumbaCodes\Pesapal\Pesapal;
+use NyanumbaCodes\Pesapal\Pesapal;
+
+// use Illuminate\Http\Client\Request as ClientRequest;
+// use Illuminate\Support\Facades\Request;
 
 class OrderController extends Controller
 {
@@ -61,20 +68,24 @@ class OrderController extends Controller
         }
         $request->user()->cart()->detach();
 
-        $pesapalPaymentResponse = $this->pesapalPaymentService->initiatePesaPal($amount=$request->amount, $orderId=$order->id);
+        $pesapalPaymentResponse = $this->pesapalPaymentService->initiatePesaPal($request->amount, $order->id);
         Log::info('Response:', ['response' => $pesapalPaymentResponse]);
-        $order->payments()->create([
-            'amount'  => $request->amount,
-            'user_id' => $request->user()->id,
+        // return redirect()->away($pesapalPaymentResponse['redirect_url']);
+        return response()->json([
+            'redirect_url' => $pesapalPaymentResponse['redirect_url'],
         ]);
-        $serving_user = auth()->user()->getFullname();
-        $pdf          = Pdf::loadView('orders.receipt', compact('order', 'serving_user'));
-        Receipt::create([
-            'order_id'     => $order->id,
-            'serving_user' => $serving_user,
-        ]);
+        // $order->payments()->create([
+        //     'amount'  => $request->amount,
+        //     'user_id' => $request->user()->id,
+        // ]);
+        // $serving_user = auth()->user()->getFullname();
+        // $pdf          = Pdf::loadView('orders.receipt', compact('order', 'serving_user'));
+        // Receipt::create([
+        //     'order_id'     => $order->id,
+        //     'serving_user' => $serving_user,
+        // ]);
 
-        return $pdf->download("receipt-{$order->id}.pdf");
+        // return $pdf->download("receipt-{$order->id}.pdf");
     }
     public function partialPayment(Request $request)
     {
@@ -103,7 +114,29 @@ class OrderController extends Controller
     }
 
     public function handlePesapallCallback(Request $request){
-        // handle pesapal callback here
-        $pesapalPaymentResponse = $this->pesapalPaymentService->handleCallback($request);
+
+        Log::info("Pesapal callback received", ['request' => $request->all()]);
+
+
+        $pesapal  = new Pesapal();
+        $paymentStatus = $pesapal->getTransactionStatus($request->input('OrderTrackingId'));
+        if($paymentStatus['status_code']  === 1){
+            $pesaPalPayment =  PesapalPayment::where('order_tracking_id', $request->input('OrderTrackingId') )->first();
+            $order = Order::where('id', $pesaPalPayment->order_id)->first();
+
+            $order->payments()->create([
+                'amount'  => $paymentStatus['amount'],
+                'user_id' => 1,
+            ]);
+            // $serving_user = Auth::user()->getFullname();
+            // $pdf          = Pdf::loadView('orders.receipt', compact('order', 'serving_user'));
+            Receipt::create([
+                'order_id'     => $order->id,
+                'serving_user' => "Admin",
+            ]);
+
+            // return $pdf->download("receipt-{$order->id}.pdf");
+
+        }
     }
 }
