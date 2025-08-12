@@ -14,7 +14,7 @@
                     <input type="text" name="app_name" class="form-control @error('app_name') is-invalid @enderror"
                         id="app_name" placeholder="{{ __('settings.App_name') }}"
                         value="{{ old('app_name', $setting->app_name) }}">
-                    eroi
+                    
                     @error('app_name')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

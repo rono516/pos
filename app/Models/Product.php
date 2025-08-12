@@ -22,6 +22,7 @@ class Product extends Model implements AuditableContract
         'totalprice',
         'shelf',
         'deleted',
+        'vat_rating'
     ];
 
     protected $casts = [

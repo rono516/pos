@@ -11,7 +11,7 @@ class Setting extends Model implements AuditableContract
     use Auditable;
 
     protected $fillable = [
-        'app_name','currency_symbol', 'app_description', 'warning_quantity','logo', 'phone', 'email'
+        'app_name','currency_symbol', 'app_description', 'warning_quantity','logo', 'phone', 'email', 'vat_registered'
     ];
 
     public function getAuditDisplayName()

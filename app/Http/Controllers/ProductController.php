@@ -52,6 +52,8 @@ class ProductController extends Controller
     public function store(ProductStoreRequest $request)
     {
 
+        // dd($request->vat_rating);
+
         $image_path = '';
 
         if ($request->hasFile('image')) {
@@ -76,6 +78,7 @@ class ProductController extends Controller
             'expiry'      => $request->expiry,
             'totalprice'  => $request->totalprice,
             'shelf'       => $request->shelf,
+            'vat_rating'  => $request->vat_rating,
         ]);
 
         if (! $product) {
