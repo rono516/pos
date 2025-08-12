@@ -136,6 +136,8 @@ class OrderController extends Controller
             ]);
 
             // return $pdf->download("receipt-{$order->id}.pdf");
+            Log::info('Trying to redirect to orders page');
+            return redirect()->route('orders.index');
 
         }
     }
