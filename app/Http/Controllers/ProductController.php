@@ -58,11 +58,17 @@ class ProductController extends Controller
             $image_path = $request->file('image')->store('products', 'public');
         }
 
+        $productBarCode = $request->barcode;
+
+        while (Product::where('barcode', $productBarCode)->exists()){
+            $productBarCode = random_int(100000, 999999); 
+        };
+
         $product = Product::create([
             'name'        => $request->name,
             'description' => $request->description,
             'image'       => $image_path,
-            'barcode'     => $request->barcode,
+            'barcode'     => $productBarCode,
             'price'       => $request->price,
             'quantity'    => $request->quantity,
             'status'      => $request->status,
