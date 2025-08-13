@@ -79,7 +79,8 @@
                     @enderror
                 </div>
 
-                <div class="form-group">
+                @if ($vat_registered)
+                    <div class="form-group">
                     <label for="vat_rating">{{ __('VAT Rating') }}</label>
                     <select name="vat_rating" class="form-control @error('vat_rating') is-invalid @enderror" id="vat_rating">
                         <option value="standard">Standard</option>
@@ -92,6 +93,8 @@
                         </span>
                     @enderror
                 </div>
+                    
+                @endif
 
                 <div class="form-group">
                     <label for="barcode">{{ __('product.Barcode') }}</label>

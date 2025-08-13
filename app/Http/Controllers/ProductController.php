@@ -40,7 +40,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $vat_registered = config('settings.vat_registered');
+        return view('products.create')->with([
+            'vat_registered' => $vat_registered
+        ]);
     }
 
     /**

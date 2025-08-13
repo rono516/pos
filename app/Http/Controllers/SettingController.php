@@ -30,6 +30,7 @@ class SettingController extends Controller
         $setting->warning_quantity = $request->warning_quantity;
         $setting->phone = $request->phone;
         $setting->email = $request->email;
+        $setting->vat_registered = $request->vat_registered;
 
         if (! $setting->save()) {
             return redirect()->back()->with('error', __('Error updating settings'));

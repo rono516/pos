@@ -96,7 +96,22 @@
                         </span>
                     @enderror
                 </div>
-                <button type="submit" class="btn btn-primary">{{ __('settings.Change_Setting') }}</button>
+
+                <div class="form-group">
+                    <label for="vat_registered">{{ __('VAT registered') }}</label>
+                    <select name="vat_registered" class="form-control @error('vat_registered') is-invalid @enderror" id="vat_registered">
+                        <option value="1" {{ old('vat_registered', $setting->vat_registered) === 1 ? 'selected' : '' }}>
+                            {{ __('Yes') }}</option>
+                        <option value="0" {{ old('vat_registered', $setting->vat_registered) === 0 ? 'selected' : '' }}>
+                            {{ __('No') }}</option>
+                    </select>
+                    @error('vat_registered')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <button type="submit" class="btn btn-primary">{{ __('Change Settings') }}</button>
             </form>
         </div>
     </div>
