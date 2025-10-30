@@ -241,42 +241,46 @@ class Cart extends Component {
             preConfirm: (amount) => {
                 return axios
                     .post("/admin/orders", {
-                    // .post("/initiatePesapal", {
                         customer_id: this.state.customer_id,
                         amount,
-                    })
+                    },
+                        {
+                            responseType: "blob",
+                        })
                     .then((res) => {
-                        console.log(`response from orders`,res);
-                        // if (res.headers['content-type'] !== 'application/pdf') {
-                        //     return res.data.text().then((text) => {
-                        //         throw new Error(`Expected PDF, received: ${text}`);
-                        //     });
-                        // }
-                        // const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
-                        // const link = document.createElement('a');
-                        // link.href = url;
-                        // // Extract filename from Content-Disposition
-                        // let filename = 'receipt.pdf'; // Default fallback
-                        // const disposition = res.headers['content-disposition'];
-                        // if (disposition) {
-                        //     const match = disposition.match(/filename="?([^"]+)"?/i);
-                        //     if (match && match[1]) {
-                        //         filename = match[1];
-                        //     }
-                        // }
-                        // // console.log('Extracted filename:', filename);
-                        // link.setAttribute('download', filename);
-                        // document.body.appendChild(link);
-                        // link.click();
-                        // document.body.removeChild(link);
-                        // window.URL.revokeObjectURL(url);
-                        this.loadCart();
-                        const redirectUrl = res.data.redirect_url;
-                        if (redirectUrl) {
-                            window.location.href = redirectUrl;
-                        } else {
-                            throw new Error("No redirect_url in response");
+                        console.log(`response from orders`, res);
+                        if (res.headers['content-type'] !== 'application/pdf') {
+                            return res.data.text().then((text) => {
+                                throw new Error(`Expected PDF, received: ${text}`);
+                            });
                         }
+                        const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
+                        const link = document.createElement('a');
+                        link.href = url;
+                        // Extract filename from Content-Disposition
+                        let filename = 'receipt.pdf'; // Default fallback
+                        const disposition = res.headers['content-disposition'];
+                        if (disposition) {
+                            const match = disposition.match(/filename="?([^"]+)"?/i);
+                            if (match && match[1]) {
+                                filename = match[1];
+                            }
+                        }
+                        // console.log('Extracted filename:', filename);
+                        link.setAttribute('download', filename);
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        window.URL.revokeObjectURL(url);
+                        this.loadCart();
+
+
+                        // const redirectUrl = res.data.redirect_url;
+                        // if (redirectUrl) {
+                        //     window.location.href = redirectUrl;
+                        // } else {
+                        //     throw new Error("No redirect_url in response");
+                        // }
                     })
                     .catch((err) => {
                         console.error('Error:', err);

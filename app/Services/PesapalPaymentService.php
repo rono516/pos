@@ -31,6 +31,7 @@ class PesapalPaymentService
             // return redirect()->away($response['redirect_url']);
         } catch (\Exception $e) {
             report($e);
+            Log::info('Error from pesapal service:', ['error' => $e]);
             return false;
         }
 
