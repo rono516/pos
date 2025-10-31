@@ -90,6 +90,83 @@ class PurchaseOrderController extends Controller
 
         return redirect()->route('purchaseorders.index')->with('success', 'Purchase order created successfully!');
     }
+    // public function store(Request $request)
+    // {
+    //     $data = $request->validate([
+    //         'supplier_id'          => 'required|exists:suppliers,id',
+    //         'items'                => 'required|array|min:1',
+    //         'items.*.product_id'   => 'nullable|exists:products,id',
+    //         'items.*.product_name' => 'required_if:items.*.product_id,null|string',
+    //         'items.*.quantity'     => 'required|integer|min:1',
+    //         'items.*.unit_price'   => 'required_if:items.*.product_id,null|numeric|min:0',
+    //     ]);
+
+    //     DB::transaction(function () use ($data) {
+
+    //         // Create purchase order
+    //         $purchaseOrder = PurchaseOrder::create([
+    //             'supplier_id'  => $data['supplier_id'],
+    //             'fulfilled'    => false,
+    //             'total_amount' => 0,
+    //         ]);
+
+    //         $total = 0;
+
+    //         foreach ($data['items'] as $item) {
+    //             $isNew     = is_null($item['product_id']);
+    //             $productId = $item['product_id'];
+
+    //             // Calculate subtotal safely
+    //             $subTotal = $item['quantity'] * ($item['unit_price'] ?? 0);
+    //             $total += $subTotal;
+
+    //             // Create product if needed
+    //             if ($isNew) {
+    //                 $barcode = $this->generateUniqueBarcode();
+
+    //                 $product = Product::create([
+    //                     'name'       => $item['product_name'],
+    //                     'quantity'   => $item['quantity'],
+    //                     'price'      => $item['unit_price'],
+    //                     'totalprice' => $subTotal,
+    //                     'status'     => false,
+    //                     'barcode'    => $barcode,
+    //                 ]);
+
+    //                 $productId = $product->id;
+    //             }
+
+    //             // Save purchase order item
+    //             $purchaseOrder->items()->create([
+    //                 'product_id'     => $productId,
+    //                 'product_name'   => $item['product_name'] ?? null,
+    //                 'quantity'       => $item['quantity'],
+    //                 'unit_price'     => $item['unit_price'] ?? null,
+    //                 'sub_total'      => $subTotal,
+    //                 'is_new_product' => $isNew,
+    //             ]);
+    //         }
+
+    //         // Update total
+    //         $purchaseOrder->update(['total_amount' => $total]);
+    //     });
+
+    //     return redirect()
+    //         ->route('purchaseorders.index')
+    //         ->with('success', 'Purchase order created successfully!');
+    // }
+
+/**
+ * Generate a unique random barcode (6 digits)
+ */
+    private function generateUniqueBarcode()
+    {
+        do {
+            $barcode = random_int(100000, 999999);
+        } while (Product::where('barcode', $barcode)->exists());
+
+        return $barcode;
+    }
 
     /**
      * Display the specified resource.

@@ -26,14 +26,11 @@
 </head>
 
 <body class="hold-transition sidebar-mini">
-    <!-- Site wrapper -->
     <div class="wrapper">
 
         @include('layouts.partials.navbar')
         @include('layouts.partials.sidebar')
-        <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -42,12 +39,11 @@
                         </div>
                         <div class="col-sm-6 text-right">
                             @yield('content-actions')
-                        </div><!-- /.col -->
+                        </div>
                     </div>
-                </div><!-- /.container-fluid -->
+                </div>
             </section>
 
-            <!-- Main content -->
             <section class="content">
                 @include('layouts.partials.alert.success')
                 @include('layouts.partials.alert.error')
@@ -55,18 +51,13 @@
             </section>
 
         </div>
-        <!-- /.content-wrapper -->
 
         @include('layouts.partials.footer')
 
-        <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
         </aside>
-        <!-- /.control-sidebar -->
     </div>
-    <!-- ./wrapper -->
-    <!-- <script src="{{ asset('js/app.js') }}"></script> -->
+    <script src="{{ asset('js/app.js') }}"></script>
 
 
     @yield('js')

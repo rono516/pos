@@ -42,7 +42,7 @@ class ProductController extends Controller
     {
         $vat_registered = config('settings.vat_registered');
         return view('products.create')->with([
-            'vat_registered' => $vat_registered
+            'vat_registered' => $vat_registered,
         ]);
     }
 
@@ -65,9 +65,9 @@ class ProductController extends Controller
 
         $productBarCode = $request->barcode;
 
-        while (Product::where('barcode', $productBarCode)->exists()){
-            $productBarCode = random_int(100000, 999999); 
-        };
+        while (Product::where('barcode', $productBarCode)->exists()) {
+            $productBarCode = random_int(100000, 999999);
+        }
 
         $product = Product::create([
             'name'        => $request->name,
@@ -81,7 +81,7 @@ class ProductController extends Controller
             'expiry'      => $request->expiry,
             'totalprice'  => $request->totalprice,
             'shelf'       => $request->shelf,
-            'vat_rating'  => $request->vat_rating,
+            'vat_rating'  => $request->vat_rating ? $request->vat_rating : 'exempt',
         ]);
 
         if (! $product) {

@@ -60,7 +60,7 @@
                         <p>{{ __('customer.title') }}</p>
                     </a>
                 </li>
-                <li class="nav-item has-treeview">
+                {{-- <li class="nav-item has-treeview">
                     <a href="{{ route('suppliers.index') }}" class="nav-link {{ activeSegment('suppliers') }}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>{{ __('Suppliers') }}</p>
@@ -71,7 +71,7 @@
                         <i class="nav-icon fas fa-boxes-stacked"></i>
                         <p>{{ __('Purchase Order') }}</p>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item has-treeview">
                     <a href="{{ route('settings.index') }}" class="nav-link {{ activeSegment('settings') }}">
                         <i class="nav-icon fas fa-cogs"></i>
