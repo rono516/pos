@@ -12,16 +12,16 @@
                 <div class="col-md-7"></div>
                 <div class="col-md-5">
                     <form action="{{ route('audit.logs') }}">
-                        <div class="row">
-                            <div class="col-md-5">
+                        <div class="row mr-2">
+                            <div class="col-md-5 mb-2">
                                 <input type="date" name="start_date" class="form-control"
                                     value="{{ request('start_date') }}" />
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-5 mb-2">
                                 <input type="date" name="end_date" class="form-control"
                                     value="{{ request('end_date') }}" />
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 mb-2">
                                 <button class="btn btn-outline-primary" type="submit">{{ __('order.submit') }}</button>
                             </div>
                         </div>
