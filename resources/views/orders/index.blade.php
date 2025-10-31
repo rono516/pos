@@ -28,114 +28,117 @@
                     </form>
                 </div>
             </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>{{ __('order.ID') }}</th>
-                        <th>{{ __('order.Customer_Name') }}</th>
-                        <th>{{ __('order.Total') }}</th>
-                        <th>{{ __('order.Received_Amount') }}</th>
-                        <th>{{ __('order.Status') }}</th>
-                        <th>{{ __('order.To_Pay') }}</th>
-                        <th>{{ __('order.Created_At') }}</th>
-                        <th>{{ __('order.Actions') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($orders as $order)
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>{{ $order->id }}</td>
-                            <td>{{ $order->getCustomerName() }}</td>
-                            <td>{{ config('settings.currency_symbol') }} {{ $order->formattedTotal() }}</td>
-                            <td>{{ config('settings.currency_symbol') }} {{ $order->formattedReceivedAmount() }}</td>
-                            <td>
-                                @if ($order->receivedAmount() == 0)
-                                    <span class="badge badge-danger">{{ __('order.Not_Paid') }}</span>
-                                @elseif($order->receivedAmount() < $order->total())
-                                    <span class="badge badge-warning">{{ __('order.Partial') }}</span>
-                                @elseif($order->receivedAmount() == $order->total())
-                                    <span class="badge badge-success">{{ __('order.Paid') }}</span>
-                                @elseif($order->receivedAmount() > $order->total())
-                                    <span class="badge badge-info">{{ __('order.Change') }}</span>
-                                @endif
-                            </td>
-                            <td>{{ config('settings.currency_symbol') }}
-                                {{ number_format($order->total() - $order->receivedAmount(), 2) }}</td>
-                            <td>{{ $order->created_at }}</td>
-                            <td>
-                                <button class="btn btn-sm btn-secondary btnShowInvoice" data-toggle="modal"
-                                    data-target="#modalInvoice" data-order-id="{{ $order->id }}"
-                                    data-customer-name="{{ $order->getCustomerName() }}"
-                                    data-total="{{ $order->total() }}" data-received="{{ $order->receivedAmount() }}"
-                                    data-items="{{ json_encode($order->items) }}"
-                                    data-created-at="{{ $order->created_at }}"
-                                    data-payment="{{ isset($order->payments) && count($order->payments) > 0 ? $order->payments[0]->amount : 0 }}">
-                                    <ion-icon size="samll" name="eye"></ion-icon>
-                                </button>
-
-                                @if ($order->receipt)
-                                    <a href="{{ route('download.receipt', $order) }}" class="btn btn-sm btn-success"
-                                        download>
-                                        <ion-icon size="small" name="download"></ion-icon>
-                                    </a>
-                                @endif
-
-                                @if ($order->total() > $order->receivedAmount())
-                                    <!-- Button for Partial Payment -->
-                                    <button class="btn btn-sm btn-primary" data-toggle="modal"
-                                        data-target="#partialPaymentModal" data-orders-id="{{ $order->id }}"
-                                        data-remaining-amount="{{ $order->total() - $order->receivedAmount() }}">
-                                        Pay Partial Amount
+                            <th>{{ __('order.ID') }}</th>
+                            <th>{{ __('order.Customer_Name') }}</th>
+                            <th>{{ __('order.Total') }}</th>
+                            <th>{{ __('order.Received_Amount') }}</th>
+                            <th>{{ __('order.Status') }}</th>
+                            <th>{{ __('order.To_Pay') }}</th>
+                            <th>{{ __('order.Created_At') }}</th>
+                            <th>{{ __('order.Actions') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($orders as $order)
+                            <tr>
+                                <td>{{ $order->id }}</td>
+                                <td>{{ $order->getCustomerName() }}</td>
+                                <td>{{ config('settings.currency_symbol') }} {{ $order->formattedTotal() }}</td>
+                                <td>{{ config('settings.currency_symbol') }} {{ $order->formattedReceivedAmount() }}</td>
+                                <td>
+                                    @if ($order->receivedAmount() == 0)
+                                        <span class="badge badge-danger">{{ __('order.Not_Paid') }}</span>
+                                    @elseif($order->receivedAmount() < $order->total())
+                                        <span class="badge badge-warning">{{ __('order.Partial') }}</span>
+                                    @elseif($order->receivedAmount() == $order->total())
+                                        <span class="badge badge-success">{{ __('order.Paid') }}</span>
+                                    @elseif($order->receivedAmount() > $order->total())
+                                        <span class="badge badge-info">{{ __('order.Change') }}</span>
+                                    @endif
+                                </td>
+                                <td>{{ config('settings.currency_symbol') }}
+                                    {{ number_format($order->total() - $order->receivedAmount(), 2) }}</td>
+                                <td>{{ $order->created_at }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-secondary btnShowInvoice" data-toggle="modal"
+                                        data-target="#modalInvoice" data-order-id="{{ $order->id }}"
+                                        data-customer-name="{{ $order->getCustomerName() }}"
+                                        data-total="{{ $order->total() }}" data-received="{{ $order->receivedAmount() }}"
+                                        data-items="{{ json_encode($order->items) }}"
+                                        data-created-at="{{ $order->created_at }}"
+                                        data-payment="{{ isset($order->payments) && count($order->payments) > 0 ? $order->payments[0]->amount : 0 }}">
+                                        <ion-icon size="samll" name="eye"></ion-icon>
                                     </button>
-                                    <!-- Partial Payment Modal -->
-                                    <div class="modal fade" id="partialPaymentModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="partialPaymentModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="partialPaymentModalLabel">Pay Partial Amount
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form id="partialPaymentForm" method="POST"
-                                                        action="{{ route('orders.partial-payment') }}">
-                                                        @csrf
-                                                        <input type="hidden" name="order_id" id="modalOrderId"
-                                                            value="">
-                                                        <div class="form-group">
-                                                            <label for="partialAmount">Enter Amount to Pay</label>
-                                                            <input type="number" class="form-control" step="0.01"
-                                                                id="partialAmount" name="amount"
-                                                                value="{{ $order->total() - $order->receivedAmount() }}">
-                                                        </div>
-                                                        <button type="submit" class="btn btn-primary">Submit
-                                                            Payment</button>
-                                                    </form>
+
+                                    @if ($order->receipt)
+                                        <a href="{{ route('download.receipt', $order) }}" class="btn btn-sm btn-success"
+                                            download>
+                                            <ion-icon size="small" name="download"></ion-icon>
+                                        </a>
+                                    @endif
+
+                                    @if ($order->total() > $order->receivedAmount())
+                                        <!-- Button for Partial Payment -->
+                                        <button class="btn btn-sm btn-primary" data-toggle="modal"
+                                            data-target="#partialPaymentModal" data-orders-id="{{ $order->id }}"
+                                            data-remaining-amount="{{ $order->total() - $order->receivedAmount() }}">
+                                            Pay Partial Amount
+                                        </button>
+                                        <!-- Partial Payment Modal -->
+                                        <div class="modal fade" id="partialPaymentModal" tabindex="-1" role="dialog"
+                                            aria-labelledby="partialPaymentModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="partialPaymentModalLabel">Pay Partial
+                                                            Amount
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form id="partialPaymentForm" method="POST"
+                                                            action="{{ route('orders.partial-payment') }}">
+                                                            @csrf
+                                                            <input type="hidden" name="order_id" id="modalOrderId"
+                                                                value="">
+                                                            <div class="form-group">
+                                                                <label for="partialAmount">Enter Amount to Pay</label>
+                                                                <input type="number" class="form-control" step="0.01"
+                                                                    id="partialAmount" name="amount"
+                                                                    value="{{ $order->total() - $order->receivedAmount() }}">
+                                                            </div>
+                                                            <button type="submit" class="btn btn-primary">Submit
+                                                                Payment</button>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endif
-                            </td>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>{{ config('settings.currency_symbol') }} {{ number_format($total, 2) }}</th>
+                            <th>{{ config('settings.currency_symbol') }} {{ number_format($receivedAmount, 2) }}</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                         </tr>
-                    @endforeach
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th>{{ config('settings.currency_symbol') }} {{ number_format($total, 2) }}</th>
-                        <th>{{ config('settings.currency_symbol') }} {{ number_format($receivedAmount, 2) }}</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </tfoot>
-            </table>
+                    </tfoot>
+                </table>
+            </div>
             {{ $orders->render() }}
         </div>
     </div>

@@ -12,41 +12,44 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>{{ __('User ID') }}</th>
-                        <th>{{ __('First Name') }}</th>
-                        <th>{{ __('Last Name') }}</th>
-                        <th>{{ __('Email') }}</th>
-                        <th>{{ __('Role') }}</th>
-                        <th>{{ __('Actions') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($users as $user)
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>{{ $user->id }}</td>
-                            <td>{{ $user->first_name }}</td>
-                            <td>{{ $user->last_name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>
-                                @foreach ($user->getRoleNames() as $role)
-                                    {{ $role }}
-                                @endforeach
-                            </td>
-                            <td>
-                                <a class="btn btn-primary btn-edit" data-id="{{ $user->id }}"
-                                    data-first_name="{{ $user->first_name }} " data-last_name="{{ $user->last_name }}"
-                                    data-email="{{ $user->email }}" data-role="{{ $user->getRoleNames()->first() }}"><i
-                                        class="fas fa-edit"></i></a>
-                                <button class="btn btn-danger btn-delete" data-url="{{ route('users.destroy', $user) }}"><i
-                                        class="fas fa-trash"></i></button>
-                            </td>
+                            <th>{{ __('User ID') }}</th>
+                            <th>{{ __('First Name') }}</th>
+                            <th>{{ __('Last Name') }}</th>
+                            <th>{{ __('Email') }}</th>
+                            <th>{{ __('Role') }}</th>
+                            <th>{{ __('Actions') }}</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $user)
+                            <tr>
+                                <td>{{ $user->id }}</td>
+                                <td>{{ $user->first_name }}</td>
+                                <td>{{ $user->last_name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>
+                                    @foreach ($user->getRoleNames() as $role)
+                                        {{ $role }}
+                                    @endforeach
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary btn-edit" data-id="{{ $user->id }}"
+                                        data-first_name="{{ $user->first_name }} " data-last_name="{{ $user->last_name }}"
+                                        data-email="{{ $user->email }}"
+                                        data-role="{{ $user->getRoleNames()->first() }}"><i class="fas fa-edit"></i></a>
+                                    <button class="btn btn-danger btn-delete"
+                                        data-url="{{ route('users.destroy', $user) }}"><i
+                                            class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             {{ $users->render() }}
         </div>
     </div>

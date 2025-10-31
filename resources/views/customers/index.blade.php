@@ -12,48 +12,50 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>{{ __('customer.ID') }}</th>
-                        <th>{{ __('customer.Avatar') }}</th>
-                        <th>{{ __('customer.First_Name') }}</th>
-                        <th>{{ __('customer.Last_Name') }}</th>
-                        <th>{{ __('customer.Email') }}</th>
-                        <th>{{ __('customer.Phone') }}</th>
-                        <th>{{ __('customer.Address') }}</th>
-                        <th>{{ __('Orders') }}</th>
-                        <th>{{ __('customer.Actions') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($customers as $customer)
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>{{ $customer->id }}</td>
-                            <td>
-                                <img width="50" src="{{ $customer->getAvatarUrl() }}" alt="">
-                            </td>
-                            <td>{{ $customer->first_name }}</td>
-                            <td>{{ $customer->last_name }}</td>
-                            <td>{{ $customer->email }}</td>
-                            <td>{{ $customer->phone }}</td>
-                            <td>{{ $customer->address }}</td>
-                            <td>
-                                @foreach ($customer->orders as $order)
-                                    <p><a href="/admin/orders">{{"Order: {$order->id}" }}</a></p>
-                                @endforeach
-                            </td>
-                            <td>
-                                <a href="{{ route('customers.edit', $customer) }}" class="btn btn-primary"><i
-                                        class="fas fa-edit"></i></a>
-                                <button class="btn btn-danger btn-delete"
-                                    data-url="{{ route('customers.destroy', $customer) }}"><i
-                                        class="fas fa-trash"></i></button>
-                            </td>
+                            <th>{{ __('customer.ID') }}</th>
+                            <th>{{ __('customer.Avatar') }}</th>
+                            <th>{{ __('customer.First_Name') }}</th>
+                            <th>{{ __('customer.Last_Name') }}</th>
+                            <th>{{ __('customer.Email') }}</th>
+                            <th>{{ __('customer.Phone') }}</th>
+                            <th>{{ __('customer.Address') }}</th>
+                            <th>{{ __('Orders') }}</th>
+                            <th>{{ __('customer.Actions') }}</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($customers as $customer)
+                            <tr>
+                                <td>{{ $customer->id }}</td>
+                                <td>
+                                    <img width="50" src="{{ $customer->getAvatarUrl() }}" alt="">
+                                </td>
+                                <td>{{ $customer->first_name }}</td>
+                                <td>{{ $customer->last_name }}</td>
+                                <td>{{ $customer->email }}</td>
+                                <td>{{ $customer->phone }}</td>
+                                <td>{{ $customer->address }}</td>
+                                <td>
+                                    @foreach ($customer->orders as $order)
+                                        <p><a href="/admin/orders">{{ "Order: {$order->id}" }}</a></p>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    <a href="{{ route('customers.edit', $customer) }}" class="btn btn-primary"><i
+                                            class="fas fa-edit"></i></a>
+                                    <button class="btn btn-danger btn-delete"
+                                        data-url="{{ route('customers.destroy', $customer) }}"><i
+                                            class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             {{ $customers->render() }}
         </div>
     </div>
